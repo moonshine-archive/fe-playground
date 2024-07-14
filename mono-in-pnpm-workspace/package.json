@@ -1,0 +1,83 @@
+{
+  "name": "things-that-flow",
+  "description": "obsessed with smooth motions and minimalism",
+  "author": {
+    "name": "yongwoo",
+    "email": "wooleejaan@gmail.com",
+    "url": "https://github.com/wooleejaan"
+  },
+  "homepage": "https://github.com/Things-That-Flow/things-that-flow#readme",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "bugs": "https://github.com/Things-That-Flow/things-that-flow/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Things-That-Flow/things-that-flow"
+  },
+  "type": "module",
+  "keywords": [
+    "monorepo",
+    "pnpm",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=20.10.0",
+    "pnpm": ">=8.15.1"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "preinstall": "pnpm dlx only-allow pnpm",
+    "prepare": "husky install",
+    "lint": "pnpx eslint .",
+    "lint:fix": "pnpx lint --fix",
+    "format": "pnpx prettier --write \"**/*.{ts,tsx,md}\"",
+    "install-all": "pnpm install && pnpm --filter @ttflow/graphics install && pnpm --filter @ttflow/tsconfig install && pnpm --filter @ttflow/eslint-config-custom install && pnpm --filter @ttflow/design-system install",
+    "uninstall-all": "find . -name 'node_modules' -exec rm -rf '{}' + ",
+    "batch-update": "pnpm uninstall-all && pnpm install-all",
+    "graphics": "pnpm --filter @ttflow/graphics",
+    "tsconfig": "pnpm --filter @ttflow/tsconfig",
+    "eslint-custom": "pnpm --filter @ttflow/eslint-config-custom install",
+    "tds": "pnpm --filter @ttflow/design-system",
+    "tds:build-with-tsup": "pnpm tds build:with-tsup",
+    "dev:graphics:afterupdate": "pnpm batch-update && pnpm graphics run dev",
+    "dev:graphics:after-tds-update": "pnpm tds:build-with-tsup && pnpm batch-update && pnpm graphics run dev",
+    "dev:graphics": "pnpm graphics run dev",
+    "config:pre-commit": "chmod +x .husky/pre-commit",
+    "config:commit-msg": "chmod +x .husky/commit-msg",
+    "config:prepare-commit-msg": "chmod +x .husky/prepare-commit-msg",
+    "config:husky": "pnpm config:pre-commit && pnpm config:commit-msg && pnpm config:prepare-commit-msg && pnpm batch-update && pnpx prettier --write . && pnpm lint"
+  },
+  "packageManager": "pnpm@8.15.1",
+  "devDependencies": {
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.2",
+    "@ttflow/eslint-config-custom": "workspace:*",
+    "@ttflow/tsconfig": "workspace:*",
+    "@types/node": "^20.11.16",
+    "husky": "^9.0.10",
+    "pnpm": "^8.15.1",
+    "typescript": "^5.2.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --cache --write",
+      "eslint --cache --fix"
+    ]
+  }
+}

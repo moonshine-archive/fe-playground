@@ -1,0 +1,3 @@
+{
+  "extends": "@ttflow/tsconfig/base.json"
+}
